@@ -1,8 +1,16 @@
 import { atom } from 'jotai'
 import { atomWithQuery } from 'jotai-tanstack-query'
 
+import lean4webConfig from '../config/config'
 import { lookupUrl } from '../utils/UrlParsing'
 import { urlArgsAtom, urlArgsStableAtom } from './url-atoms'
+
+/** Get the URL for the default example, if configured */
+function getDefaultExampleUrl(): string | undefined {
+  const defaultExample = lean4webConfig.defaultExample
+  if (!defaultExample) return undefined
+  return `/api/example/${defaultExample.project}/${defaultExample.file}`
+}
 
 /**
  * Stores the import-URL.
@@ -20,9 +28,12 @@ export const importUrlAtom = atom<string>()
  */
 export const importedCodeAtom = atom<string>()
 
-/** Query to fetch the code from the import URL */
+/** Query to fetch the code from the import URL or default example */
 const freshlyImportedCodeQueryAtom = atomWithQuery((get) => {
-  const url = get(urlArgsStableAtom).url
+  const urlArgs = get(urlArgsStableAtom)
+  // Use URL from args, or fall back to default example if no code is specified
+  const hasExplicitCode = urlArgs.code || urlArgs.codez
+  const url = urlArgs.url ?? (hasExplicitCode ? undefined : getDefaultExampleUrl())
   return {
     queryKey: ['importedCode', url],
     queryFn: async () => {
