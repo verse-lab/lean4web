@@ -1,0 +1,40 @@
+# Git
+.git
+.gitignore
+.github
+
+# Node modules (will be installed in container)
+node_modules
+
+# Build artifacts (will be rebuilt in container)
+client/dist
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Lean build artifacts (will be rebuilt in container)
+**/.lake
+**/lake-packages
+**/build
+
+# Tests
+cypress
+cypress.config.ts
+
+# Logs
+*.log
+logs
+
+# Docker files (don't need to copy themselves)
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Documentation (not needed at runtime)
+doc
+
+# Plan files
+.claude
