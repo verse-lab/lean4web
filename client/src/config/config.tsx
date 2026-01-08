@@ -12,7 +12,7 @@ const lean4webConfig: LeanWebConfig = {
     //     { file: 'MathlibDemo/Rational.lean', name: 'Rational' },
     //   ],
     // },
-    { folder: 'Stable', name: 'Stable Lean' },
+    // { folder: 'Stable', name: 'Stable Lean' },
     {
       folder: 'Veil',
       name: 'Veil',

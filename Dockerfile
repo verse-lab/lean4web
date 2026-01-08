@@ -43,6 +43,7 @@ ENV ELAN_HOME="/home/lean/.elan"
 ENV PATH="${ELAN_HOME}/bin:${PATH}"
 
 RUN curl -sSf https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
+RUN elan toolchain install beta
 
 # Switch back to root for subsequent stages
 USER root
@@ -95,12 +96,12 @@ COPY --chown=lean:lean Projects/ /app/Projects/
 #     fi
 
 # # Stable
-WORKDIR /app/Projects/Stable
-RUN if [ -f lean-toolchain ]; then \
-        echo "Building Stable..." && \
-        elan toolchain install $(cat lean-toolchain) && \
-        lake build; \
-    fi
+# WORKDIR /app/Projects/Stable
+# RUN if [ -f lean-toolchain ]; then \
+#         echo "Building Stable..." && \
+#         elan toolchain install $(cat lean-toolchain) && \
+#         lake build; \
+#     fi
 
 # Veil (if present)
 WORKDIR /app/Projects/Veil
@@ -108,7 +109,8 @@ RUN if [ -f lean-toolchain ]; then \
         echo "Building Veil..." && \
         elan toolchain install $(cat lean-toolchain) && \
         (lake exe cache get 2>/dev/null || true) && \
-        lake build; \
+        lake build && \
+        mkdir -p .lake/model_checker_builds; \
     fi
 
 WORKDIR /app

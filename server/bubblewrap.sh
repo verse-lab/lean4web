@@ -11,8 +11,9 @@ LEAN_SRC_PATH=$(cd $1 && lake env printenv LEAN_SRC_PATH)
 # # print commands as they are executed
 # set -x
 
-exec bwrap\
-  --ro-bind "$1" "/$PROJECT_NAME" \
+bwrap\
+  --ro-bind "$1" "$PROJECT_NAME" \
+  --bind "$1/.lake" "$PROJECT_NAME/.lake" \
   --ro-bind "$LEAN_ROOT" /lean \
   --ro-bind /usr /usr \
   --ro-bind /etc/localtime /etc/localtime \
@@ -28,9 +29,10 @@ exec bwrap\
   --setenv LEAN_SRC_PATH "$LEAN_SRC_PATH" \
   --unshare-user \
   --unshare-pid  \
-  --unshare-net  \
   --unshare-uts  \
   --unshare-cgroup \
   --die-with-parent \
-  --chdir "/$PROJECT_NAME/" \
+  --chdir "$PROJECT_NAME/" \
   lake serve --
+
+#   --unshare-net  \
