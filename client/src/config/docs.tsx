@@ -32,6 +32,16 @@ interface LeanWebProject {
 
 interface LeanWebConfig {
   projects: LeanWebProject[]
+  /** Default example to load when the page is opened without URL parameters.
+   * If not specified, the editor starts empty.
+   * The project and file must match an entry in `projects`.
+   */
+  defaultExample?: {
+    /** The project folder (must match a project in `projects`) */
+    project: string
+    /** The file path relative to the project folder */
+    file: string
+  }
   /** Where the server is located. Use `null` to not display this information. */
   serverCountry: string | null
   /** Contact details of the server maintainer. Used in Privacy Policy and Impressum.

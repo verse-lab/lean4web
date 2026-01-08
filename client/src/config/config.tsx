@@ -24,6 +24,11 @@ const lean4webConfig: LeanWebConfig = {
       ],
     },
   ],
+  // Load the Ring example by default when opening the page
+  defaultExample: {
+    project: 'Veil',
+    file: 'Examples/Ivy/Ring.lean',
+  },
   serverCountry: null,
   contactDetails: null,
   impressum: null,
