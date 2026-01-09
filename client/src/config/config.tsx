@@ -17,10 +17,11 @@ const lean4webConfig: LeanWebConfig = {
       folder: 'Veil',
       name: 'Veil',
       examples: [
-        { file: 'Examples/Ivy/Ring.lean', name: 'Ring' },
         { file: 'Examples/Tutorial/RingFin.lean', name: 'Ring Concrete' },
+        { file: 'Examples/Ivy/Ring.lean', name: 'Ring' },
         { file: 'Examples/TLA/DieHard.lean', name: 'DieHard' },
         { file: 'Examples/Ivy/TwoPhaseCommit.lean', name: 'Two Phase Commit' },
+        { file: 'Examples/Ivy/RicartAgrawala.lean', name: 'Ricart Agrawala' },
         { file: 'Examples/ReliableBroadcast.lean', name: 'Reliable Broadcast' },
         { file: 'Examples/SuzukiKasami.lean', name: 'Suzuki Kasami' },
         { file: 'Examples/Ivy/PaxosEPR.lean', name: 'Paxos EPR' },
