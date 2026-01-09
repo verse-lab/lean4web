@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-DOMAIN="try.veil.dev"
+DOMAIN="live.veil.dev"
 EMAIL="george@pirlea.net"
 CERT_PATH="/etc/letsencrypt/live/$DOMAIN"
 
