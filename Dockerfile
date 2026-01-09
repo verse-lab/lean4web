@@ -44,6 +44,7 @@ ENV PATH="${ELAN_HOME}/bin:${PATH}"
 
 RUN curl -sSf https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
 RUN elan toolchain install beta
+RUN elan toolchain install v4.25.2
 
 # Switch back to root for subsequent stages
 USER root
@@ -107,7 +108,7 @@ COPY --chown=lean:lean Projects/ /app/Projects/
 WORKDIR /app/Projects/Veil
 RUN if [ -f lean-toolchain ]; then \
         echo "Building Veil..." && \
-        elan toolchain install $(cat lean-toolchain) && \
+        # elan toolchain install $(cat lean-toolchain) && \
         (lake exe cache get 2>/dev/null || true) && \
         lake build && \
         mkdir -p .lake/model_checker_builds; \
