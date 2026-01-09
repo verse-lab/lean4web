@@ -23,10 +23,10 @@ services:
     # Bubblewrap needs full namespace support to mount /proc inside its sandbox.
     # These settings are required for this to work reliably on Linux.
     # Note: Bubblewrap itself provides sandboxing (no network, isolated PID, read-only fs)
-    privileged: true
+    # privileged: true
     security_opt:
       - apparmor:unconfined
-      - seccomp:unconfined
+      # - seccomp:unconfined
     cap_add:
       - SYS_ADMIN
 

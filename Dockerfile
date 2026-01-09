@@ -33,7 +33,12 @@ RUN curl -fsSL https://deb.nodesource.com/setup_25.x | bash - \
     && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for running elan/lean
-RUN useradd -m -s /bin/bash lean
+# Install uidmap for newuidmap/newgidmap (required for bubblewrap user namespaces)
+RUN apt-get update && apt-get install -y --no-install-recommends uidmap \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -m -s /bin/bash lean \
+    && echo "lean:100000:65536" >> /etc/subuid \
+    && echo "lean:100000:65536" >> /etc/subgid
 
 # Install elan as the lean user
 USER lean
