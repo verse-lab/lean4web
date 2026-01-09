@@ -17,7 +17,8 @@ const lean4webConfig: LeanWebConfig = {
       folder: 'Veil',
       name: 'Veil',
       examples: [
-        { file: 'Examples/Ivy/Ring.lean', name: 'Ring' },
+        { file: 'Examples/Tutorial/RingFin.lean', name: 'Ring Concrete' },
+        { file: 'Examples/Tutorial/RingDec.lean', name: 'Ring Abstract' },
         { file: 'Examples/TLA/DieHard.lean', name: 'DieHard' },
         { file: 'Examples/ReliableBroadcast.lean', name: 'Reliable Broadcast' },
         { file: 'Examples/SuzukiKasami.lean', name: 'Suzuki Kasami' },
@@ -27,7 +28,7 @@ const lean4webConfig: LeanWebConfig = {
   // Load the Ring example by default when opening the page
   defaultExample: {
     project: 'Veil',
-    file: 'Examples/Ivy/Ring.lean',
+    file: 'Examples/Tutorial/RingDec.lean',
   },
   serverCountry: null,
   contactDetails: null,
