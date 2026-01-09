@@ -19,8 +19,10 @@ const lean4webConfig: LeanWebConfig = {
       examples: [
         { file: 'Examples/Tutorial/RingFin.lean', name: 'Ring Concrete' },
         { file: 'Examples/Ivy/Ring.lean', name: 'Ring' },
+        { file: 'Examples/Tutorial/RingNat.lean', name: 'Ring Nat' },
         { file: 'Examples/TLA/DieHard.lean', name: 'DieHard' },
-        { file: 'Examples/Ivy/TwoPhaseCommit.lean', name: 'Two Phase Commit' },
+        { file: 'Examples/Ivy/TwoPhaseCommit.lean', name: 'Two Phase Commit (Ivy)' },
+        { file: 'Examples/TLA/TwoPhaseCommit.lean', name: 'Two Phase Commit (TLA)' },
         { file: 'Examples/Ivy/RicartAgrawala.lean', name: 'Ricart Agrawala' },
         { file: 'Examples/ReliableBroadcast.lean', name: 'Reliable Broadcast' },
         { file: 'Examples/SuzukiKasami.lean', name: 'Suzuki Kasami' },
