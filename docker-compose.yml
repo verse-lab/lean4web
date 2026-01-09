@@ -5,10 +5,28 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - certbot-etc:/etc/letsencrypt:ro
+      - certbot-var:/var/lib/letsencrypt
+      - certbot-webroot:/var/www/certbot:ro
     depends_on:
       - lean4web
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+  certbot:
+    image: certbot/certbot
+    container_name: lean4web-certbot
+    restart: always
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - certbot-webroot:/var/www/certbot
+      - ./init-letsencrypt.sh:/init-letsencrypt.sh:ro
+    entrypoint: "/bin/sh /init-letsencrypt.sh"
+    depends_on:
+      - nginx
 
   lean4web:
     build:
@@ -55,3 +73,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  certbot-webroot:
