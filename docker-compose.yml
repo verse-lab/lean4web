@@ -10,10 +10,24 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - certbot-etc:/etc/letsencrypt:ro
       - certbot-var:/var/lib/letsencrypt
-      - certbot-webroot:/var/www/certbot:ro
+      - certbot-webroot:/var/www/certbot
     depends_on:
       - lean4web
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    command: >
+      /bin/sh -c '
+        # Check for reload signal every 5 seconds (for initial cert)
+        while :; do
+          if [ -f /var/www/certbot/.reload-nginx ]; then
+            echo "Reload signal received, reloading nginx..."
+            nginx -s reload
+            rm -f /var/www/certbot/.reload-nginx
+          fi
+          sleep 5
+        done &
+        # Reload every 6 hours (for renewals)
+        while :; do sleep 6h & wait $${!}; nginx -s reload; done &
+        nginx -g "daemon off;"
+      '
 
   certbot:
     image: certbot/certbot

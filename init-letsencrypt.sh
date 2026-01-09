@@ -34,6 +34,9 @@ if ! openssl x509 -in "$CERT_PATH/fullchain.pem" -text -noout | grep -q "Let's E
         --non-interactive
 
     echo "Certificate obtained!"
+
+    # Signal nginx to reload
+    touch /var/www/certbot/.reload-nginx
 fi
 
 # Run renewal loop
