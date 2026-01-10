@@ -4,27 +4,21 @@
 # 1. Fair CPU sharing between all concurrent sessions
 # 2. All child processes are killed when the session ends
 
-CGROUP_BASE="/sys/fs/cgroup"
-CGROUP_NAME="lean4web-$$"
+CGROUP_PARENT="/sys/fs/cgroup/lean4web-sessions"
+CGROUP_NAME="session-$$"
+CGROUP_PATH="$CGROUP_PARENT/$CGROUP_NAME"
 
-# Try to find a writable cgroup location
-if [ -w "$CGROUP_BASE/user.slice" ]; then
-    CGROUP_PATH="$CGROUP_BASE/user.slice/lean4web-sessions/$CGROUP_NAME"
-elif [ -w "$CGROUP_BASE" ]; then
-    CGROUP_PATH="$CGROUP_BASE/lean4web-sessions/$CGROUP_NAME"
-else
+# Check if the parent cgroup exists and is writable (set up by entrypoint)
+if [ ! -w "$CGROUP_PARENT" ]; then
     # Cgroups not available, fall back to just running bubblewrap
     exec ./bubblewrap.sh "$@"
 fi
 
-# Create parent directory if needed
-mkdir -p "$(dirname "$CGROUP_PATH")" 2>/dev/null || true
-
 # Enable controllers on parent (needed for cgroups v2)
-echo "+cpu +memory" > "$(dirname "$CGROUP_PATH")/cgroup.subtree_control" 2>/dev/null || true
+echo "+cpu +memory" > "$CGROUP_PARENT/cgroup.subtree_control" 2>/dev/null || true
 
-# Create our cgroup
-mkdir -p "$CGROUP_PATH" 2>/dev/null || exec ./bubblewrap.sh "$@"
+# Create our session cgroup
+mkdir "$CGROUP_PATH" 2>/dev/null || exec ./bubblewrap.sh "$@"
 
 # Set fair CPU sharing (weight 100 = equal share with all other sessions)
 # All sessions with weight 100 get equal CPU time under contention

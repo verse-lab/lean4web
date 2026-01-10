@@ -147,13 +147,17 @@ COPY --from=lean-builder --chown=lean:lean /home/lean/.elan /home/lean/.elan
 # Copy entrypoint script
 COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/
 
+# Install gosu for dropping privileges in entrypoint
+RUN apt-get update && apt-get install -y --no-install-recommends gosu \
+    && rm -rf /var/lib/apt/lists/*
+
 # Environment
 ENV NODE_ENV=production
 ENV PORT=8080
 ENV PATH="/home/lean/.elan/bin:${PATH}"
 
-# Switch to non-root user
-USER lean
+# Run entrypoint as root (it will drop to lean user after cgroup setup)
+# The actual server process runs as lean for security
 
 EXPOSE 8080
 
