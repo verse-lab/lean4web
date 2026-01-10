@@ -17,9 +17,9 @@ const lean4webConfig: LeanWebConfig = {
       folder: 'Veil',
       name: 'Veil',
       examples: [
-        { file: 'Examples/Tutorial/RingFin.lean', name: 'Ring Concrete' },
-        { file: 'Examples/Ivy/Ring.lean', name: 'Ring' },
-        { file: 'Examples/Tutorial/RingNat.lean', name: 'Ring Nat' },
+        { file: 'Examples/Tutorial/RingFin.lean', name: 'Ring (Concrete)' },
+        { file: 'Examples/Tutorial/RingDec.lean', name: 'Ring (Decidable)' },
+        { file: 'Examples/Tutorial/RingNat.lean', name: 'Ring (Naturals)' },
         { file: 'Examples/TLA/DieHard.lean', name: 'DieHard' },
         { file: 'Examples/Ivy/TwoPhaseCommit.lean', name: 'Two Phase Commit (Ivy)' },
         { file: 'Examples/TLA/TwoPhaseCommit.lean', name: 'Two Phase Commit (TLA)' },
