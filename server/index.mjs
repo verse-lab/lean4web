@@ -110,7 +110,9 @@ function startServerProcess(project) {
     serverProcess = cp.spawn("lake", ["serve", "--"], { cwd: projectPath });
   } else {
     if (hasWorkingBwrap()) {
-      serverProcess = cp.spawn("./bubblewrap.sh", [projectPath], {
+      // Use cgroup-wrapper.sh which sets up cgroups for fair resource sharing
+      // and then calls bubblewrap.sh
+      serverProcess = cp.spawn("./cgroup-wrapper.sh", [projectPath], {
         cwd: __dirname,
       });
     } else if (ALLOW_NO_BUBBLEWRAP?.toLowerCase() === "true") {
@@ -233,6 +235,14 @@ wss.addListener("connection", function (ws, req) {
   });
 
   ws.on("close", () => {
+    // Kill the process tree to ensure all child processes are terminated
+    if (ps && !ps.killed) {
+      ps.kill("SIGTERM");
+      // Force kill after timeout if process doesn't exit cleanly
+      setTimeout(() => {
+        if (!ps.killed) ps.kill("SIGKILL");
+      }, 5000);
+    }
     socketCounter -= 1;
     if (!isGithubAction) {
       console.log(`[${new Date()}] Socket closed - ${ip}`);

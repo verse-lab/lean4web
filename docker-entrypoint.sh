@@ -29,6 +29,20 @@ else
     echo "  Continuing without sandboxing (ALLOW_NO_BUBBLEWRAP=true)"
 fi
 
+# Check cgroups v2 availability for resource fairness
+echo ""
+echo "Checking cgroups v2 availability..."
+if [ -d /sys/fs/cgroup ] && [ -f /sys/fs/cgroup/cgroup.controllers ]; then
+    if [ -w /sys/fs/cgroup ] || [ -w /sys/fs/cgroup/user.slice ]; then
+        echo "  cgroups v2: OK (resource fairness enabled)"
+    else
+        echo "  WARNING: cgroups v2 not writable - resource fairness disabled"
+        echo "  For resource fairness, run with: --cgroupns=host -v /sys/fs/cgroup:/sys/fs/cgroup:rw"
+    fi
+else
+    echo "  WARNING: cgroups v2 not available - resource fairness disabled"
+fi
+
 # Show Lean toolchains
 echo ""
 echo "Available Lean toolchains:"
