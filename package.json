@@ -47,7 +47,7 @@
     "jotai-location": "^0.6.2",
     "jotai-react": "^0.0.0",
     "jotai-tanstack-query": "^0.11.0",
-    "lean4monaco": "^1.1.4",
+    "lean4monaco": "git+https://github.com/dranov/lean4monaco.git#dranov/subset-emoji-font",
     "lz-string": "^1.5.0",
     "memfs": "^4.51.1",
     "nocache": "^4.0.0",
