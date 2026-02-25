@@ -26,6 +26,7 @@ bwrap\
   --clearenv \
   --setenv PATH "/bin:/usr/bin:/lean/bin" \
   --setenv LEAN_SRC_PATH "$LEAN_SRC_PATH" \
+  --setenv VEIL_ONLINE_ENV "true" \
   --unshare-user \
   --unshare-pid  \
   --unshare-uts  \
