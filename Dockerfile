@@ -49,7 +49,12 @@ ENV PATH="${ELAN_HOME}/bin:${PATH}"
 
 RUN curl -sSf https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
 RUN elan toolchain install beta
-RUN elan toolchain install v4.27.0
+
+# Install the Lean toolchain required by the Veil project from its lean-toolchain file
+COPY --chown=lean:lean Projects/Veil/lean-toolchain /tmp/veil-lean-toolchain
+RUN VEIL_TOOLCHAIN="$(tr -d '\r\n' < /tmp/veil-lean-toolchain)" \
+    && echo "Installing Veil toolchain: ${VEIL_TOOLCHAIN}" \
+    && elan toolchain install "${VEIL_TOOLCHAIN}"
 
 # Switch back to root for subsequent stages
 USER root
