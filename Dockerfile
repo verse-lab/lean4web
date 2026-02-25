@@ -49,7 +49,7 @@ ENV PATH="${ELAN_HOME}/bin:${PATH}"
 
 RUN curl -sSf https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
 RUN elan toolchain install beta
-RUN elan toolchain install v4.25.2
+RUN elan toolchain install v4.27.0
 
 # Switch back to root for subsequent stages
 USER root
